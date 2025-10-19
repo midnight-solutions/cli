@@ -29,7 +29,7 @@ jobs:
       run: go mod verify
 
     - name: Run tests
-      run: go test -coverprofile=./coverage.out ./...
+      run: go test -coverprofile=coverage.out .
 
     - name: Run benchmarks
       run: go test -bench=.
@@ -41,6 +41,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Go
         uses: actions/setup-go@v4
@@ -48,9 +50,9 @@ jobs:
           go-version: '1.25'
 
       - name: Run tests
-        run: go test -coverprofile=./coverage.out ./...
+        run: go test -coverprofile=coverage.out .
       
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v6
+        uses: SonarSource/sonarqube-scan-action@fd88b7d7ccbaefd23d8f36f73b59db7a3d246602
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
